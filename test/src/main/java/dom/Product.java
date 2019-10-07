@@ -1,16 +1,20 @@
 package dom;
 
 public class Product {
+	public static final String IMPORTED = "imported";
+	
 	private String name;
 	private ProductType productType;
 	private boolean imported;
+	private int amount;
 	private double totalPrice;
 	
-	public Product(String name, ProductType productType, boolean imported, double totalPrice) {
+	public Product(String name, ProductType productType, boolean imported, int amount, double totalPrice) {
 		super();
 		this.name = name;
 		this.productType = productType;
 		this.imported = imported;
+		this.amount = amount;
 		this.totalPrice = totalPrice;
 	}
 
@@ -37,6 +41,14 @@ public class Product {
 	public void setImported(boolean imported) {
 		this.imported = imported;
 	}
+	
+	public int getAmount() {
+		return amount;
+	}
+
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
 
 	public double getTotalPrice() {
 		return totalPrice;
@@ -44,5 +56,32 @@ public class Product {
 
 	public void setTotalPrice(double totalPrice) {
 		this.totalPrice = totalPrice;
+	}
+	
+	private double getTaxPercent() {
+		double result = 0.0;
+		if(!productType.isExempt()) {
+			result += 0.10;
+		}
+		if(imported) {
+			result += 0.05;
+		}
+		return result;
+	}
+	
+	public double getTaxedPrice() {		
+		return roundToFraction(totalPrice*amount*(getTaxPercent()+1.0), 20);		
+	}
+	
+	public double getTaxedPart() {
+		return totalPrice*amount*getTaxPercent();
+	}
+	
+	public static double roundToFraction(double x, long fraction) {
+		String formated = String.format("%.2f", x);
+		if(formated.matches(".*[1-4]$")) {
+			return Double.parseDouble(formated.substring(0,formated.length()-1).concat("5"));
+		}
+		return Double.parseDouble(formated);
 	}
 }
