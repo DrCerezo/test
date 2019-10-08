@@ -14,7 +14,6 @@ public class Receipt {
 	}
 	
 	public String buildReceipt() {
-		Locale.setDefault(Locale.US);
 		StringBuilder resultBuilder = new StringBuilder();
 		double totalTaxesPart = 0.0;
 		double totalReceipt = 0.0;
@@ -31,7 +30,7 @@ public class Receipt {
 			totalTaxesPart += product.getTaxedPart();
 		}
 		resultBuilder.append("Sales Taxes: ");
-		resultBuilder.append(String.format("%.2f", Product.roundToFraction(totalTaxesPart,20)));
+		resultBuilder.append(String.format("%.2f", totalTaxesPart));
 		resultBuilder.append(LINE_SEPARATOR);
 		
 		resultBuilder.append("Total: ");

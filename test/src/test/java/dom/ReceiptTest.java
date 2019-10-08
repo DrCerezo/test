@@ -18,7 +18,6 @@ public class ReceiptTest {
 				"Total: 29.83\n";
 		Receipt receipt = ReceiptReader.read(input);
 		String obtained = receipt.buildReceipt();
-		System.out.println(obtained);
 		assertEquals(output, obtained);
 	}
 	

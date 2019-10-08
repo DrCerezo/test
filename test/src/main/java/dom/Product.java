@@ -1,5 +1,7 @@
 package dom;
 
+import java.util.Locale;
+
 public class Product {
 	public static final String IMPORTED = "imported";
 	
@@ -70,14 +72,15 @@ public class Product {
 	}
 	
 	public double getTaxedPrice() {		
-		return roundToFraction(totalPrice*amount*(getTaxPercent()+1.0), 20);		
+		return roundToFraction(totalPrice*amount*(getTaxPercent()+1.0));		
 	}
 	
 	public double getTaxedPart() {
-		return totalPrice*amount*getTaxPercent();
+		return roundToFraction(totalPrice*amount*getTaxPercent());
 	}
 	
-	public static double roundToFraction(double x, long fraction) {
+	public static double roundToFraction(double x) {
+		Locale.setDefault(Locale.US);
 		String formated = String.format("%.2f", x);
 		if(formated.matches(".*[1-4]$")) {
 			return Double.parseDouble(formated.substring(0,formated.length()-1).concat("5"));
